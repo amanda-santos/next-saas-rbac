@@ -21,7 +21,7 @@ export async function getProject(app: FastifyInstance) {
           security: [{ bearerAuth: [] }],
           params: z.object({
             orgSlug: z.string(),
-            projectSlug: z.string().uuid(),
+            projectSlug: z.string(),
           }),
           response: {
             200: z.object({
@@ -30,13 +30,13 @@ export async function getProject(app: FastifyInstance) {
                 description: z.string(),
                 name: z.string(),
                 slug: z.string(),
-                avatarUrl: z.string().nullable(),
+                avatarUrl: z.string().url().nullable(),
                 organizationId: z.string().uuid(),
                 ownerId: z.string().uuid(),
                 owner: z.object({
                   id: z.string().uuid(),
                   name: z.string().nullable(),
-                  avatarUrl: z.string().nullable(),
+                  avatarUrl: z.string().url().nullable(),
                 }),
               }),
             }),
