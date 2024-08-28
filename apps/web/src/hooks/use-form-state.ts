@@ -6,10 +6,17 @@ type FormState = {
   errors: Record<string, string[]> | null
 }
 
-export function useFormState(
-  action: (data: FormData) => Promise<FormState>,
-  initialState?: FormState,
-) {
+type UseFormStateParams = {
+  action: (data: FormData) => Promise<FormState>
+  onSuccess?: () => void | Promise<void>
+  initialState?: FormState
+}
+
+export function useFormState({
+  action,
+  initialState,
+  onSuccess,
+}: UseFormStateParams) {
   const [isPending, startTransition] = useTransition()
 
   const [formState, setFormState] = useState(
@@ -26,6 +33,10 @@ export function useFormState(
       const state = await action(data)
 
       setFormState(state)
+
+      if (state.success && onSuccess) {
+        await onSuccess()
+      }
     })
   }
 
