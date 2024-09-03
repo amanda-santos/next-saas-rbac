@@ -1,10 +1,10 @@
 import { api } from './api-client'
 
-interface SignInWithGitHubRequest {
+type SignInWithGitHubRequest = {
   code: string
 }
 
-interface SignInWithGitHubResponse {
+type SignInWithGitHubResponse = {
   token: string
 }
 
