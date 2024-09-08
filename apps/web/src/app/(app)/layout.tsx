@@ -1,5 +1,6 @@
-import { isAuthenticated } from '@/helpers/is-authenticated'
 import { redirect } from 'next/navigation'
+
+import { isAuthenticated } from '@/auth'
 
 export default function AppLayout({
   children,
