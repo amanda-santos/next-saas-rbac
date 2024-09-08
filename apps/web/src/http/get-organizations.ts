@@ -1,12 +1,9 @@
+import { Organization } from '@/types/Organization'
+
 import { api } from './api-client'
 
 type GetOrganizationsResponse = {
-  organizations: Array<{
-    id: string
-    name: string
-    slug: string
-    avatarUrl: string | null
-  }>
+  organizations: Array<Pick<Organization, 'id' | 'name' | 'slug' | 'avatarUrl'>>
 }
 
 export async function getOrganizations() {

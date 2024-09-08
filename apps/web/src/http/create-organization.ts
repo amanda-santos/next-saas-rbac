@@ -1,10 +1,11 @@
+import { Organization } from '@/types/Organization'
+
 import { api } from './api-client'
 
-type CreateOrganizationRequest = {
-  name: string
-  domain: string | null
-  shouldAttachUsersByDomain: boolean
-}
+type CreateOrganizationRequest = Pick<
+  Organization,
+  'name' | 'domain' | 'shouldAttachUsersByDomain'
+>
 
 type CreateOrganizationResponse = void
 

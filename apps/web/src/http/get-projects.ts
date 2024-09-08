@@ -1,21 +1,9 @@
+import { Project } from '@/types/Project'
+
 import { api } from './api-client'
 
 type GetProjectsResponse = {
-  projects: {
-    description: string
-    slug: string
-    id: string
-    name: string
-    avatarUrl: string | null
-    organizationId: string
-    ownerId: string
-    createdAt: string
-    owner: {
-      id: string
-      name: string | null
-      avatarUrl: string | null
-    }
-  }[]
+  projects: Array<Project>
 }
 
 export async function getProjects(org: string) {
