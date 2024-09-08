@@ -9,7 +9,7 @@ const organizationSchema = z
   .object({
     name: z
       .string()
-      .min(4, { message: 'Please, incluide at least 4 characters.' }),
+      .min(4, { message: 'Please, include at least 4 characters.' }),
     domain: z
       .string()
       .nullable()
@@ -60,7 +60,7 @@ export async function createOrganizationAction(data: FormData) {
   try {
     await createOrganization({
       name,
-      domain,
+      domain: domain || null,
       shouldAttachUsersByDomain,
     })
   } catch (err) {
