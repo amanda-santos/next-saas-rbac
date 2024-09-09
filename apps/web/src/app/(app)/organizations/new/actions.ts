@@ -9,7 +9,7 @@ const organizationSchema = z
   .object({
     name: z
       .string()
-      .min(4, { message: 'Please, include at least 4 characters.' }),
+      .min(4, { message: 'Please include at least 4 characters.' }),
     domain: z
       .string()
       .nullable()
@@ -24,7 +24,7 @@ const organizationSchema = z
           return true
         },
         {
-          message: 'Please, enter a valid domain.',
+          message: 'Please enter a valid domain.',
         },
       ),
     shouldAttachUsersByDomain: z
