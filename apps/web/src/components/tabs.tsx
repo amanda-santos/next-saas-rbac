@@ -15,7 +15,9 @@ export function Tabs() {
           size="sm"
           className="border border-transparent text-muted-foreground data-[current=true]:border-border data-[current=true]:text-foreground"
         >
-          <NavLink href={`/org/${currentOrganizationSlug}`}>Projects</NavLink>
+          <NavLink href={`/organizations/${currentOrganizationSlug}`}>
+            Projects
+          </NavLink>
         </Button>
         <Button
           asChild
@@ -23,7 +25,7 @@ export function Tabs() {
           size="sm"
           className="border border-transparent text-muted-foreground data-[current=true]:border-border data-[current=true]:text-foreground"
         >
-          <NavLink href={`/org/${currentOrganizationSlug}/members`}>
+          <NavLink href={`/organizations/${currentOrganizationSlug}/members`}>
             Members
           </NavLink>
         </Button>
@@ -33,7 +35,7 @@ export function Tabs() {
           size="sm"
           className="border border-transparent text-muted-foreground data-[current=true]:border-border data-[current=true]:text-foreground"
         >
-          <NavLink href={`/org/${currentOrganizationSlug}/settings`}>
+          <NavLink href={`/organizations/${currentOrganizationSlug}/settings`}>
             Settings & Billing
           </NavLink>
         </Button>
