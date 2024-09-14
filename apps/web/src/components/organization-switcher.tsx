@@ -17,6 +17,8 @@ import {
 
 export async function OrganizationSwitcher() {
   const currentOrganizationSlug = getCurrentOrganizationSlug()
+  console.log('currentOrganizationSlug')
+  console.log(currentOrganizationSlug)
 
   const { organizations } = await getOrganizations()
 

@@ -5,7 +5,10 @@ export function middleware(request: NextRequest) {
 
   const response = NextResponse.next()
 
-  if (pathname.startsWith('/organizations') && !pathname.includes('new')) {
+  if (
+    pathname.startsWith('/organizations') &&
+    !pathname.includes('organizations/new')
+  ) {
     const [, , slug] = pathname.split('/')
 
     response.cookies.set('organizationSlug', slug)
