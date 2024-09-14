@@ -1,4 +1,4 @@
-import { getAbility } from '@/auth'
+import { getAbility, getCurrentOrganizationSlug } from '@/auth'
 import {
   Card,
   CardContent,
@@ -6,16 +6,25 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { getOrganization } from '@/http/get-organization'
 
 import { OrganizationForm } from '../../organization-form'
 import { ShutdownOrganizationButton } from './shutdown-organization-button'
 
 export default async function Settings() {
+  const currentOrganizationSlug = getCurrentOrganizationSlug()
+
+  if (!currentOrganizationSlug) {
+    return null
+  }
+
   const permissions = await getAbility()
 
   const canUpdateOrganization = permissions?.can('update', 'Organization')
   const canGetBilling = permissions?.can('get', 'Billing')
   const canShutdownOrganization = permissions?.can('delete', 'Organization')
+
+  const { organization } = await getOrganization(currentOrganizationSlug)
 
   return (
     <div className="space-y-4">
@@ -31,7 +40,15 @@ export default async function Settings() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <OrganizationForm />
+              <OrganizationForm
+                isUpdating
+                initialData={{
+                  name: organization.name,
+                  domain: organization.domain,
+                  shouldAttachUsersByDomain:
+                    organization.shouldAttachUsersByDomain,
+                }}
+              />
             </CardContent>
           </Card>
         )}

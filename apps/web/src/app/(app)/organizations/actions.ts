@@ -1,9 +1,13 @@
 'use server'
 
 import { HTTPError } from 'ky'
+import { revalidateTag } from 'next/cache'
 import { z } from 'zod'
 
+import { getCurrentOrganizationSlug } from '@/auth'
+import { FormState } from '@/hooks/use-form-state'
 import { createOrganization } from '@/http/create-organization'
+import { updateOrganization } from '@/http/update-organization'
 
 const organizationSchema = z
   .object({
@@ -46,7 +50,11 @@ const organizationSchema = z
     },
   )
 
-export async function createOrganizationAction(data: FormData) {
+export type OrganizationSchema = z.infer<typeof organizationSchema>
+
+export async function createOrganizationAction(
+  data: FormData,
+): Promise<FormState> {
   const result = organizationSchema.safeParse(Object.fromEntries(data))
 
   if (!result.success) {
@@ -63,10 +71,66 @@ export async function createOrganizationAction(data: FormData) {
       domain: domain || null,
       shouldAttachUsersByDomain,
     })
+
+    revalidateTag('organizations')
   } catch (err) {
     if (err instanceof HTTPError) {
       const { message } = await err.response.json()
 
+      return { success: false, message, errors: null }
+    }
+
+    console.error(err)
+
+    return {
+      success: false,
+      message: 'Unexpected error, try again in a few minutes.',
+      errors: null,
+    }
+  }
+
+  return {
+    success: true,
+    message: 'Successfully saved the organization.',
+    errors: null,
+  }
+}
+
+export async function updateOrganizationAction(
+  data: FormData,
+): Promise<FormState> {
+  const currentOrganizationSlug = getCurrentOrganizationSlug()
+
+  if (!currentOrganizationSlug) {
+    return {
+      success: false,
+      message: 'Organization not found.',
+      errors: null,
+    }
+  }
+
+  const result = organizationSchema.safeParse(Object.fromEntries(data))
+
+  if (!result.success) {
+    const errors = result.error.flatten().fieldErrors
+
+    return { success: false, message: null, errors }
+  }
+
+  const { name, domain, shouldAttachUsersByDomain } = result.data
+
+  try {
+    await updateOrganization({
+      slug: currentOrganizationSlug,
+      name,
+      domain,
+      shouldAttachUsersByDomain,
+    })
+
+    revalidateTag('organizations')
+  } catch (err) {
+    if (err instanceof HTTPError) {
+      const { message } = await err.response.json()
       return { success: false, message, errors: null }
     }
 

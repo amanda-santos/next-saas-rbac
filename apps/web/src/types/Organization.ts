@@ -5,4 +5,7 @@ export type Organization = {
   domain: string | null
   avatarUrl: string | null
   shouldAttachUsersByDomain: boolean
+  ownerId: string
+  createdAt: string
+  updatedAt: string
 }

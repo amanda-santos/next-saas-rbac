@@ -31,6 +31,8 @@ import { removeMember } from './routes/members/remove-member'
 import { updateMember } from './routes/members/update-member'
 import { createOrganization } from './routes/organizations/create-organization'
 import { getMembership } from './routes/organizations/get-membership'
+import { getOrganization } from './routes/organizations/get-organization'
+import { getOrganizations } from './routes/organizations/get-organizations'
 import { shutdownOrganization } from './routes/organizations/shutdown-organization'
 import { transferOrganization } from './routes/organizations/transfer-organization'
 import { updateOrganization } from './routes/organizations/update-organization'
@@ -39,8 +41,6 @@ import { deleteProject } from './routes/projects/delete-project'
 import { getProject } from './routes/projects/get-project'
 import { getProjects } from './routes/projects/get-projects'
 import { updateProject } from './routes/projects/update-project'
-import { getOrganization } from './routes/organizations/get-organization'
-import { getOrganizations } from './routes/organizations/get-organizations'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
