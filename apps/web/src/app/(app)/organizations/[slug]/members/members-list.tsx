@@ -1,5 +1,5 @@
 import { organizationSchema } from '@saas/auth'
-import { ArrowLeftRight, Crown } from 'lucide-react'
+import { ArrowLeftRight, Crown, UserMinus } from 'lucide-react'
 import Image from 'next/image'
 
 import { getAbility, getCurrentOrganizationSlug } from '@/auth'
@@ -9,6 +9,8 @@ import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { getMembers } from '@/http/get-members'
 import { getMembership } from '@/http/get-membership'
 import { getOrganization } from '@/http/get-organization'
+
+import { removeMemberAction } from './actions'
 
 export async function MembersList() {
   const currentOrganizationSlug = getCurrentOrganizationSlug()
@@ -50,6 +52,7 @@ export async function MembersList() {
                       )}
                     </Avatar>
                   </TableCell>
+
                   <TableCell className="py-2.5">
                     <div className="flex flex-col">
                       <span className="inline-flex items-center gap-2 font-medium">
@@ -67,6 +70,7 @@ export async function MembersList() {
                       </span>
                     </div>
                   </TableCell>
+
                   <TableCell className="py-2.5">
                     <div className="flex items-center justify-end gap-2">
                       {permissions?.can(
@@ -77,6 +81,23 @@ export async function MembersList() {
                           <ArrowLeftRight className="mr-2 size-4" />
                           Transfer ownership
                         </Button>
+                      )}
+
+                      {permissions?.can('delete', 'User') && (
+                        <form action={removeMemberAction.bind(null, member.id)}>
+                          <Button
+                            disabled={
+                              member.userId === membership.userId ||
+                              member.userId === organization.ownerId
+                            }
+                            type="submit"
+                            size="sm"
+                            variant="destructive"
+                          >
+                            <UserMinus className="mr-2 size-4" />
+                            Remove
+                          </Button>
+                        </form>
                       )}
                     </div>
                   </TableCell>

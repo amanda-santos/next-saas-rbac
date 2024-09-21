@@ -1,5 +1,7 @@
 import { Role } from '@saas/auth'
 
+import { Organization } from '@/types/Organization'
+
 import { api } from './api-client'
 
 interface GetMembersResponse {
@@ -13,9 +15,13 @@ interface GetMembersResponse {
   }[]
 }
 
-export async function getMembers(org: string) {
+export async function getMembers(organizationSlug: Organization['slug']) {
   const result = await api
-    .get(`organizations/${org}/members`)
+    .get(`organizations/${organizationSlug}/members`, {
+      next: {
+        tags: [`${organizationSlug}/members`],
+      },
+    })
     .json<GetMembersResponse>()
 
   return result
