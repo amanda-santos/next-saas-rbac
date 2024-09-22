@@ -8,5 +8,6 @@ export type Invite = {
   author: {
     id: string
     name: string | null
+    avatarUrl: string | null
   } | null
 }
