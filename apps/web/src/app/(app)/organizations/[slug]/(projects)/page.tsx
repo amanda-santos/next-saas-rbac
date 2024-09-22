@@ -30,7 +30,7 @@ export default async function Projects() {
         <ProjectsList />
       ) : (
         <p className="text-sm text-muted-foreground">
-          You are not allowed to see organization projects.
+          You are not allowed to see the organization projects.
         </p>
       )}
     </div>
